@@ -17,7 +17,6 @@ init:
 	@make var
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction --if-not-exists
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --force --complete --no-interaction
 	./bin-docker/php ./bin/console --env="$(APP_ENV)"  doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
@@ -38,7 +37,6 @@ init-tests:
 	./bin-docker/php ./bin/console --env=test doctrine:database:drop --no-interaction --force --if-exists
 	./bin-docker/php ./bin/console --env=test doctrine:database:create --no-interaction --if-not-exists
 	./bin-docker/php ./bin/console --env=test doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env=test doctrine:schema:update --force --complete --no-interaction
 	./bin-docker/php ./bin/console --env=test doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console --env=test assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
@@ -89,7 +87,6 @@ schema-reset:
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:drop --force --if-exists
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --force --complete --no-interaction
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migration:sync-metadata-storage
 
 fix:

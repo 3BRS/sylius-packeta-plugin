@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "ext-json": "*",
-        "php": "^8.2",
+        "php": "^8.2|^8.3",
         "sylius/sylius": "^2.0",
         "3brs/sylius-shipment-export-plugin": "1.0"
     },
