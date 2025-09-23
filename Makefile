@@ -1,4 +1,6 @@
-.PHONY: run init
+.PHONY: run init var ci
+
+MAKEFLAGS += --no-print-directory # to disable "make: Entering directory ..." messages
 
 APP_ENV ?= dev
 
@@ -16,6 +18,7 @@ init:
 	@make var
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction --if-not-exists
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
+	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --no-interaction --complete --force
 	./bin-docker/php ./bin/console --env="$(APP_ENV)"  doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
@@ -24,17 +27,17 @@ init:
 
 init-tests:
 	which docker > /dev/null || (echo "Please install docker binary" && exit 1)
-	if command -v direnv &> /dev/null then \
+	if command -v direnv &> /dev/null; then \
 		cp --update=none .envrc.dist .envrc; \
 		direnv allow; \
 	fi
 	docker compose up -d
 	./bin-docker/composer install
-	rm -fr tests/Application/var/test
 	@make var
 	./bin-docker/php ./bin/console --env=test doctrine:database:drop --no-interaction --force --if-exists
 	./bin-docker/php ./bin/console --env=test doctrine:database:create --no-interaction --if-not-exists
 	./bin-docker/php ./bin/console --env=test doctrine:migrations:migrate --no-interaction
+	./bin-docker/php ./bin/console --env=test doctrine:schema:update --no-interaction --complete --force
 	./bin-docker/php ./bin/console --env=test doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console --env=test assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
@@ -85,6 +88,7 @@ schema-reset:
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:drop --force --if-exists
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
+	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --no-interaction --complete --force
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migration:sync-metadata-storage
 
 fix:

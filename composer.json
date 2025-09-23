@@ -20,7 +20,7 @@
         "friends-of-behat/mink-extension": "^v2.7.5",
         "friends-of-behat/page-object-extension": "^v0.3.2",
         "friends-of-behat/suite-settings-extension": "^v1.1.0",
-        "friends-of-behat/symfony-extension": "v2.6.0",
+        "friends-of-behat/symfony-extension": "^2.6.2",
         "friends-of-behat/variadic-extension": "^v1.6.0",
         "php-http/message-factory": "^1.1.0",
         "phpstan/phpstan": "^2.1.10",
