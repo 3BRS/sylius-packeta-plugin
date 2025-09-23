@@ -6,8 +6,7 @@ run: init
 
 init:
 	which docker > /dev/null || (echo "Please install docker binary" && exit 1)
-	which direnv > /dev/null || (echo "Please install direnv binary" && exit 1)
-	if [ `command -v direnv &> /dev/null` ]; then \
+	if command -v direnv &> /dev/null; then \
 		cp --update=none .envrc.dist .envrc; \
 		direnv allow; \
 	fi
@@ -21,12 +20,11 @@ init:
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
 	GULP_ENV=prod ./bin-docker/yarn --cwd=tests/Application build
-	chmod -R 777 tests/Application/var
+	@make var
 
 init-tests:
 	which docker > /dev/null || (echo "Please install docker binary" && exit 1)
-	which direnv > /dev/null || (echo "Please install direnv binary" && exit 1)
-	if [ `command -v direnv &> /dev/null` ]; then \
+	if command -v direnv &> /dev/null then \
 		cp --update=none .envrc.dist .envrc; \
 		direnv allow; \
 	fi
@@ -41,7 +39,7 @@ init-tests:
 	./bin-docker/php ./bin/console --env=test assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
 	GULP_ENV=prod ./bin-docker/yarn --cwd=tests/Application build
-	chmod -R 777 tests/Application/var
+	@make var
 
 cache:
 	./bin-docker/php ./bin/console --env="$(APP_ENV)" cache:clear
@@ -101,7 +99,7 @@ var:
 	mkdir -p tests/Application/var/log
 	touch tests/Application/var/log/test.log
 	touch tests/Application/var/log/dev.log
-	chmod -R 777 tests/Application/var
+	chmod -R 0777 tests/Application/var
 
 fixtures: schema-reset bare-fixtures
 
