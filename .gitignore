@@ -3,6 +3,7 @@
 /node_modules/
 /composer.lock
 /symfony.lock
+/.env
 /.envrc
 /phpunit_log
 
