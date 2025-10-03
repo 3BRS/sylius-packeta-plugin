@@ -61,6 +61,9 @@ static-only:
 phpstan:
 	./bin-docker/docker-bash bin/phpstan.sh
 
+phpunit:
+	./bin-docker/docker-bash bin/phpunit.sh --testdox
+
 behat:
 	./bin-docker/docker-bash bin/behat.sh
 
