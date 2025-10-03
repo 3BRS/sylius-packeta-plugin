@@ -2,8 +2,6 @@
 
 MAKEFLAGS += --no-print-directory # to disable "make: Entering directory ..." messages
 
-APP_ENV ?= dev
-
 run: init
 
 init:
@@ -16,11 +14,11 @@ init:
 	./bin-docker/composer install
 	rm -fr "tests/Application/var/$(APP_ENV)"
 	@make var
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction --if-not-exists
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --no-interaction --complete --force
-	./bin-docker/php ./bin/console --env="$(APP_ENV)"  doctrine:migration:sync-metadata-storage
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" assets:install
+	./bin-docker/php ./bin/console doctrine:database:create --no-interaction --if-not-exists
+	./bin-docker/php ./bin/console doctrine:migrations:migrate --no-interaction
+	./bin-docker/php ./bin/console doctrine:schema:update --no-interaction --complete --force
+	./bin-docker/php ./bin/console doctrine:migration:sync-metadata-storage
+	./bin-docker/php ./bin/console assets:install
 	./bin-docker/yarn --cwd=tests/Application install --pure-lockfile
 	GULP_ENV=prod ./bin-docker/yarn --cwd=tests/Application build
 	@make var
@@ -45,7 +43,7 @@ init-tests:
 	@make var
 
 cache:
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" cache:clear
+	./bin-docker/php ./bin/console cache:clear
 	@make var
 
 static: fix static-only
@@ -88,18 +86,18 @@ yarn-build:
 make yarn: yarn-build
 
 schema-reset:
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:drop --force --if-exists
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:database:create --no-interaction
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:schema:update --no-interaction --complete --force
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" doctrine:migration:sync-metadata-storage
+	./bin-docker/php ./bin/console doctrine:database:drop --force --if-exists
+	./bin-docker/php ./bin/console doctrine:database:create --no-interaction
+	./bin-docker/php ./bin/console doctrine:migrations:migrate --no-interaction
+	./bin-docker/php ./bin/console doctrine:schema:update --no-interaction --complete --force
+	./bin-docker/php ./bin/console doctrine:migration:sync-metadata-storage
 
 fix:
 	./bin-docker/docker-bash bin/ecs.sh --fix
 
 bare-fixtures:
 	@echo "############\nLoading fixtures: $(SPEED_MESSAGE)\n############"
-	./bin-docker/php ./bin/console --env="$(APP_ENV)" sylius:fixtures:load --no-interaction
+	./bin-docker/php ./bin/console sylius:fixtures:load --no-interaction
 
 var:
 	rm -fr tests/Application/var
