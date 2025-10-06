@@ -23,10 +23,13 @@
 
 ## Features
 
- - Enables sending shipments via [<a href="https://www.packeta.com">en</a>]  [<a href="https://www.zasilkovna.cz">cz</a>] [<a href="https://www.przesylkownia.pl">pl</a>] [<a href="https://www.zasielkovna.sk">sk</a>] [<a href="https://www.csomagkuldo.hu">hu</a>] [<a href="https://www.coletaria.ro">ro</a>] to Packeta branch or to the customer's address via Packeta service.
- - The user can choose the Packeta branch from the map during checkout in the Shipment step.
- - See Packeta branch in final checkout step and also in the admin panel.
- - Export CSV with the Packeta shipments (both to Packeta branch or customer's address) and import it easily into Packeta's system.
+- Enables sending shipments
+  via [<a href="https://www.packeta.com">en</a>]  [<a href="https://www.zasilkovna.cz">cz</a>] [<a href="https://www.przesylkownia.pl">pl</a>] [<a href="https://www.zasielkovna.sk">sk</a>] [<a href="https://www.csomagkuldo.hu">hu</a>] [<a href="https://www.coletaria.ro">ro</a>]
+  to Packeta branch or to the customer's address via Packeta service.
+- The user can choose the Packeta branch from the map during checkout in the Shipment step.
+- See Packeta branch in final checkout step and also in the admin panel.
+- Export CSV with the Packeta shipments (both to Packeta branch or customer's address) and import it easily into
+  Packeta's system.
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/3BRS/sylius-packeta-plugin/master/doc/admin_order_detail.png"/>
@@ -45,7 +48,7 @@
 
 1. Run `composer require 3brs/sylius-packeta-plugin`.
 1. Add plugin classes to your `config/bundles.php`:
- 
+
    ```php
    return [
       ...
@@ -53,25 +56,25 @@
       ThreeBRS\SyliusPacketaPlugin\ThreeBRSSyliusPacketaPlugin::class => ['all' => true],
    ];
    ```
-  
+
 1. Use plugin configuration by creating `config/packages/threebrs_sylius_packeta_plugin.yaml` with content
 
     ```yaml
     imports:
          - { resource: "@ThreeBRSSyliusPacketaPlugin/Resources/config/config.{yml,yaml}" }
     ```
-   
+
 1. Add routing to `config/routes.yaml`
 
     ```yaml
     threebrs_sylius_shipment_export_plugin:
         resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/admin_routing.{yml,yaml}"
-        prefix: /admin
+        prefix: '/%sylius_admin.path_name%'
     ```
-   
-1. Your Entity `Shipment` has to implement `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentInterface`. 
+
+1. Your Entity `Shipment` has to implement `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentInterface`.
    You can use the trait `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentTrait`.
- 
+
    ```php
    <?php 
    
@@ -91,10 +94,10 @@
        use PacketaShipmentTrait;
    }
    ```
-   
-1. Your Entity `ShippingMethod` has to implement `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentInterface`. 
+
+1. Your Entity `ShippingMethod` has to implement `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentInterface`.
    You can use the trait `\ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentTrait`.
- 
+
    ```php
    <?php 
    
@@ -130,19 +133,27 @@
 
 1. Create and run doctrine database migrations.
 
-For the guide how to use your own entity see [Sylius docs - Customizing Models](https://docs.sylius.com/en/1.6/customization/model.html)
+For the guide how to use your own entity
+see [Sylius docs - Customizing Models](https://docs.sylius.com/en/1.6/customization/model.html)
 
 ## Usage
 
-* For delivery to the Packeta branch, create new shipping method in the admin panel, set `Packeta api key` and leave `Carrier ID` empty.
-* For delivery to customer's address, create new shipping method in the admin panel, set the `Carrier ID` and leave the `Packeta API key` empty.
-* If you need to filter the points in the map by country, use the `Show only pickup points from specific country in the map`. If you leave this blank, all points in all supported countries will be shown.
-* Packeta CSV export will be generated for shipping method which has the code 'packeta', you can change this in parameters, it is an array (therefore can contain more codes, e.g. if you need to have different prices for different countries, you will need more shipping methods; it is okay to use always the same API key) 
+* For delivery to the Packeta branch, create new shipping method in the admin panel, set `Packeta api key` and leave
+  `Carrier ID` empty.
+* For delivery to customer's address, create new shipping method in the admin panel, set the `Carrier ID` and leave the
+  `Packeta API key` empty.
+* If you need to filter the points in the map by country, use the
+  `Show only pickup points from specific country in the map`. If you leave this blank, all points in all supported
+  countries will be shown.
+* Packeta CSV export will be generated for shipping method which has the code 'packeta', you can change this in
+  parameters, it is an array (therefore can contain more codes, e.g. if you need to have different prices for different
+  countries, you will need more shipping methods; it is okay to use always the same API key)
   ```yaml
   parameters:
       shippingMethodsCodes: ['packeta']
   ```
-  You should add to this array both methods for shipping to Packeta branch and also to customer's address via Packeta service.
+  You should add to this array both methods for shipping to Packeta branch and also to customer's address via Packeta
+  service.
 * Packeta API documentation: https://docs.packeta.com/docs/getting-started/client-section-imports#csv-import
 * You can expand the list of countries by the parameter
   ```yaml
@@ -158,7 +169,6 @@ For the guide how to use your own entity see [Sylius docs - Customizing Models](
 - See [`bin/`](./bin) for useful commands
 
 ### Testing
-
 
 After your changes you must ensure that the tests are still passing.
 
