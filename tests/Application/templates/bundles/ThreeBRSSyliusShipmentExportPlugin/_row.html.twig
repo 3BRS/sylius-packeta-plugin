@@ -1,0 +1,9 @@
+{% extends '@!ThreeBRSSyliusShipmentExportPlugin/_row.html.twig' %}
+
+{% block address %}
+    {% if row.packeta %}
+        {{ include('@ThreeBRSSyliusPacketaPlugin/_exporterRow.html.twig') }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
