@@ -68,8 +68,6 @@ final class Kernel extends BaseKernel
             $container->addResource(new FileResource($bundlesFile));
         }
 
-        $container->setParameter('container.dumper.inline_class_loader', true);
-
         foreach ($this->getConfigurationDirectories() as $confDir) {
             $this->loadContainerConfiguration($loader, $confDir);
         }
