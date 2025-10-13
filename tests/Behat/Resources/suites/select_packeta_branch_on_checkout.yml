@@ -56,4 +56,4 @@ default:
                 - sylius_packeta_plugin.context.setup.shipping_method
 
             filters:
-                tags: "@select_packeta_branch_on_checkout && @ui"
+                tags: "@select_packeta_branch_on_checkout&&@ui"

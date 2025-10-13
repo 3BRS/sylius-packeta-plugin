@@ -49,4 +49,4 @@ default:
                 - sylius_packeta_plugin.context.ui.admin.shipping_method
 
             filters:
-                tags: "@set_apikey_to_shipping_method && @ui"
+                tags: "@set_apikey_to_shipping_method&&@ui"
