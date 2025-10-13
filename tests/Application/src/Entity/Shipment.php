@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\Shipment as BaseShipment;
 use ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentInterface;
 use ThreeBRS\SyliusPacketaPlugin\Model\PacketaShipmentTrait;
 
-#[ORM\MappedSuperclass]
+#[ORM\Entity]
 #[ORM\Table(name: 'sylius_shipment')]
 class Shipment extends BaseShipment implements PacketaShipmentInterface
 {

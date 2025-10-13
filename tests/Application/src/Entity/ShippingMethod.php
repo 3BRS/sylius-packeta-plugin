@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\ShippingMethod as BaseShippingMethod;
 use ThreeBRS\SyliusPacketaPlugin\Model\PacketaShippingMethodInterface;
 use ThreeBRS\SyliusPacketaPlugin\Model\PacketaShippingMethodTrait;
 
-#[ORM\MappedSuperclass]
+#[ORM\Entity]
 #[ORM\Table(name: 'sylius_shipping_method')]
 class ShippingMethod extends BaseShippingMethod implements PacketaShippingMethodInterface
 {
