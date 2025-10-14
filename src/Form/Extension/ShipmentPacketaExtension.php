@@ -7,6 +7,7 @@ namespace ThreeBRS\SyliusPacketaPlugin\Form\Extension;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\ShipmentType;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 use Sylius\Component\Core\Repository\ShippingMethodRepositoryInterface;
+use Sylius\Component\Shipping\Model\ShipmentInterface;
 use Sylius\Component\Shipping\Resolver\ShippingMethodsResolverInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\CallbackTransformer;
@@ -40,7 +41,9 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
         array $options,
     ): void {
         $builder
-            ->add('packeta', HiddenType::class)
+            ->add('packeta', HiddenType::class, [
+                'error_bubbling' => false,
+            ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (
                 FormEvent $event,
             ): void {
@@ -63,10 +66,29 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
                 }
 
                 $event->setData($orderData);
+            })
+            ->addEventListener(FormEvents::POST_SUBMIT, function (
+                FormEvent $event,
+            ): void {
+                $form = $event->getForm();
+                $shipment = $form->getData();
+                if ($shipment === null) {
+                    return;
+                }
+                assert($shipment instanceof ShipmentInterface);
 
-                // validation
-                if (array_key_exists('packeta_' . $method, $orderData) && $orderData['packeta'] === null) {
-                    $event->getForm()->addError(new FormError($this->translator->trans('threebrs.shop.checkout.packetaBranch', [], 'validators')));
+                // Get the selected method code
+                $methodCode = $shipment->getMethod()?->getCode();
+
+                // validation - check if Packeta method is selected but no branch was chosen
+                if ($methodCode !== null &&
+                    in_array($methodCode, $this->packetaMethodsCodes, true) &&
+                    $shipment instanceof PacketaShipmentInterface &&
+                    $shipment->getPacketa() === null
+                ) {
+                    $error = new FormError($this->translator->trans('threebrs.shop.checkout.packetaBranch', [], 'validators'));
+                    $form->get('method')->addError($error);
+                    $form->get('packeta')->addError($error);
                 }
             })
             ->addEventListener(FormEvents::PRE_SET_DATA, function (

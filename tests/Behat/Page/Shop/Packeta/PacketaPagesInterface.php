@@ -11,4 +11,8 @@ interface PacketaPagesInterface extends BaseUpdatePageInterface
     public function selectPacketaBranch(array $packeta): void;
 
     public function iSeePacketaBranchInsteadOfShippingAddress(): bool;
+
+    public function getGenericValidationMessageForShipment(): string;
+
+    public function getPacketaValidationMessageForShipment(): string;
 }

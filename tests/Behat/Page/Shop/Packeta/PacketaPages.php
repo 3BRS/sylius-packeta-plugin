@@ -21,11 +21,30 @@ final class PacketaPages extends BaseUpdatePage implements PacketaPagesInterface
         return str_contains($shippingAddress, 'Packeta branch');
     }
 
+    public function getGenericValidationMessageForShipment(): string
+    {
+        $validationElement = $this->getDocument()->find('css', '[data-test-validation-error]');
+
+        return $validationElement?->getText() ?? '';
+    }
+
+    public function getPacketaValidationMessageForShipment(): string
+    {
+        $validationElement = $this->getDocument()->find('css', '[data-test-packeta-validation-error]');
+
+        return $validationElement?->getText() ?? '';
+    }
+
+    public function getRouteName(): string
+    {
+        return 'sylius_shop_checkout_select_shipping';
+    }
+
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'packeta_hidden_input' => 'input[type="hidden"][name^="sylius_shop_checkout_select_shipping[shipments][0][packeta_"]',
-            'shippingAddress' => '[data-test-shipping-address]',
+            'shippingAddress'      => '[data-test-shipping-address]',
         ]);
     }
 }

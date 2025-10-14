@@ -32,12 +32,17 @@
 		</button>
 	</div>
 
+	{% if form.parent.parent.packeta.vars.errors|length > 0 %}
+		<div class="alert alert-danger mt-3 text-center" role="alert" {{ sylius_test_html_attribute('packeta-validation-error') }}>
+			{{ form_errors(form.parent.parent.packeta) }}
+		</div>
+	{% endif %}
+
 	<hr class="my-4"/>
 
 	{{ form_widget(form.parent.parent[packetaFieldName]) }}
 {% endif %}
 
 {% if not form.parent.parent.packeta.isRendered %}
-	{# TODO needed? #}
 	{{ form_widget(form.parent.parent.packeta) }}
 {% endif %}

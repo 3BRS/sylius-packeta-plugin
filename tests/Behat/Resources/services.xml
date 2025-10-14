@@ -31,6 +31,8 @@
 			<argument type="service"
 					  id="Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Page\Shop\Packeta\PacketaPagesInterface"/>
 			<argument type="service" id="sylius.behat.context.ui.shop.checkout.shipping"/>
+			<argument type="service" id="behat.mink.default_session"/>
+			<argument type="service" id="router"/>
 		</service>
 
 		<service id="Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Page\Shop\Packeta\PacketaPagesInterface"
