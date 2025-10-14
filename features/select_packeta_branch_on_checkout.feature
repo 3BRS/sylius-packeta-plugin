@@ -36,6 +36,15 @@ Feature: Select Packeta branch in checkout
 		Then I should not be able to go to the payment step again
 
 	@ui
+	Scenario: Validation error message is shown when Packeta branch is not selected
+		Given I have product "PHP T-Shirt" in the cart
+		And I specified the billing address as "Ankh Morpork", "Frost Alley", "90210", "Czechia" for "Jon Snow"
+		When I select "Packeta" shipping method
+		And I try to complete the shipping step without selected Packeta branch
+		Then I should still be on the checkout shipping step
+		And I should be notified that Packeta branch is required
+
+	@ui
 	Scenario: Complete order with Packeta shipping method
 		Given I have product "PHP T-Shirt" in the cart
 		And I specified the billing address as "Ankh Morpork", "Frost Alley", "90210", "Czechia" for "Jon Snow"

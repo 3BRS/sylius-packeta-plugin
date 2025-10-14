@@ -1,4 +1,4 @@
 threebrs:
     shop:
         checkout:
-            packetaBranch: Choose Packeta Branch
+            packetaBranch: Please select a Packeta branch to continue.
