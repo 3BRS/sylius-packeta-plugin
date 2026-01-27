@@ -39,9 +39,9 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
     }
 
     /**
-     * @param array<mixed> $questionsArray
+     * @param array<string, mixed> $questionsArray
      *
-     * @return array<mixed>
+     * @return array<int|string, bool|float|int|string|null>
      */
     public function getRow(
         ShipmentInterface $shipment,
@@ -122,11 +122,11 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
             );
         }
 
-        $weight = 0;
+        $weight = 0.0;
         foreach ($order->getItems() as $item) {
             /** @var OrderItemInterface $item */
             $variant = $item->getVariant();
-            if ($variant !== null) {
+            if ($variant !== null && $variant->getWeight() !== null) {
                 $weight += $variant->getWeight() * $item->getQuantity();
             }
         }
@@ -142,7 +142,7 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
             : null;
 
         return [
-            /* 1 - version 5 */
+            /* 1 - version 8 */
             '',
 
             /* 2 - Číslo obj.* */
@@ -218,7 +218,7 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
     }
 
     /**
-     * @return array<mixed>|null
+     * @return array<\ThreeBRS\SyliusShipmentExportPlugin\Model\Question>|null
      */
     public function getQuestionsArray(): ?array
     {
@@ -231,7 +231,7 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
     public function getHeaders(): ?array
     {
         return [
-            ['version 5'],
+            ['version 8'],
             [''],
         ];
     }

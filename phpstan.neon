@@ -15,5 +15,9 @@ parameters:
         - tests/Application/var/*
         - tests/Application/node_modules/*
 
+    ignoreErrors:
+        -
+            identifier: trait.unused
+
     symfony:
-        containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusPacketaPlugin_Application_KernelTestDebugContainer.xml
+        containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusPacketaPlugin_KernelTestDebugContainer.xml

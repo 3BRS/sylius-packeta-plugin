@@ -98,7 +98,7 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
                 $shipment = $event->getData();
                 assert($shipment === null || $shipment instanceof PacketaShipmentInterface);
 
-                if ($shipment && $this->shippingMethodsResolver->supports($shipment)) {
+                if ($shipment !== null && $this->shippingMethodsResolver->supports($shipment)) {
                     $shippingMethods = $this->shippingMethodsResolver->getSupportedMethods($shipment);
                 } else {
                     $shippingMethods = $this->shippingMethodRepository->findAll();
@@ -111,7 +111,7 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
                     assert($method instanceof PacketaShippingMethodInterface);
 
                     $packetaConfig = $method->getPacketaConfig();
-                    if ($packetaConfig && $packetaConfig->getApiKey()) {
+                    if ($packetaConfig !== null && $packetaConfig->getApiKey() !== null) {
                         assert($method->getCode() !== null);
                         $zone = $method->getZone();
                         assert($zone !== null);
