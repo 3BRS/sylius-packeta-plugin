@@ -1,0 +1,19 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+
+parameters:
+    level: 8
+    reportUnmatchedIgnoredErrors: false
+
+    paths:
+        - src
+
+    excludePaths:
+        - tests/Application/var/*
+        - tests/Application/node_modules/*
+
+    symfony:
+        containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusPacketaPlugin_Application_KernelTestDebugContainer.xml
