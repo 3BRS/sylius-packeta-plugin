@@ -8,7 +8,7 @@
         "ext-json": "*",
         "php": "^8.3",
         "sylius/sylius": "^2.1",
-        "3brs/sylius-shipment-export-plugin": "^1.1"
+        "3brs/sylius-shipment-export-plugin": "^1.0"
     },
     "require-dev": {
         "behat/behat": "^v3.19.0",
