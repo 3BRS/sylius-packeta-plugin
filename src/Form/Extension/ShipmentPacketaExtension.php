@@ -50,7 +50,6 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
                 $orderData = $event->getData();
 
                 assert(is_array($orderData));
-                assert(array_key_exists('packeta', $orderData));
                 assert(array_key_exists('method', $orderData));
 
                 $method = $orderData['method'];
