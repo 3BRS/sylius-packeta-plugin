@@ -3,6 +3,7 @@ default:
         select_packeta_branch_on_checkout:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Context\Hook\TokenStorageResetContext
 
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.currency
