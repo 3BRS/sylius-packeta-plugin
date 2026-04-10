@@ -15,10 +15,10 @@ use Webmozart\Assert\Assert;
 final readonly class ManagingPacketaContext implements Context
 {
     public function __construct(
-        private PacketaPagesInterface   $packetaPages,
+        private PacketaPagesInterface $packetaPages,
         private CheckoutShippingContext $checkoutShippingContext,
-        private Session                 $session,
-        private RouterInterface         $router,
+        private Session $session,
+        private RouterInterface $router,
     ) {
     }
 
@@ -62,7 +62,7 @@ final readonly class ManagingPacketaContext implements Context
     public function iShouldStillBeOnTheCheckoutShippingStep()
     {
         $currentUrl = $this->session->getCurrentUrl();
-        $currentPath = parse_url($currentUrl, PHP_URL_PATH);
+        $currentPath = parse_url($currentUrl, \PHP_URL_PATH);
         Assert::string($currentPath, sprintf('Current URL "%s" is not valid.', $currentUrl));
 
         $expectedPath = $this->router->generate(

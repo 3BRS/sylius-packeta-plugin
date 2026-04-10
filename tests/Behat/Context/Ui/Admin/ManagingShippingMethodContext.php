@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Sylius\Behat\Service\NotificationCheckerInterface;
 use Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Page\Admin\ShippingMethod\UpdatePageInterface;
 use Webmozart\Assert\Assert;
 

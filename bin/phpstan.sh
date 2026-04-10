@@ -18,5 +18,7 @@ fi
 
 set -x
 XDEBUG_MODE=off php -d memory_limit=1G vendor/bin/phpstan analyse \
-    --configuration=phpstan.neon \
+    --debug \
+    --level max \
+    src tests \
     "$@"

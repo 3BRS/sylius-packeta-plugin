@@ -131,6 +131,7 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
             }
         }
 
+        /** @var string|int|null $packetaId */
         $packetaId = $packeta !== null && array_key_exists('id', $packeta)
             ? $packeta['id']
             : null;
@@ -190,7 +191,7 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
             '',
 
             /* 16 - Ulice */
-            $packetaId
+            $packetaId !== null
                 ? ''
                 : $address->getStreet(),
 
@@ -198,12 +199,12 @@ class PacketaShipmentExporter implements ShipmentExporterInterface
             '',
 
             /* 18 - Obec */
-            $packetaId
+            $packetaId !== null
                 ? ''
                 : $address->getCity(),
 
             /* 19 - PSČ */
-            $packetaId
+            $packetaId !== null
                 ? ''
                 : $address->getPostcode(),
 
