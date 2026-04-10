@@ -1,14 +1,14 @@
 version: 2.1
 
 workflows:
-    sylius2.x-tests:
+    sylius2.1-2.2-php8.2+:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
                             sylius_version: [ "2.1", "2.2" ]
-                            php_version: [ "8.3", "8.4" ]
+                            php_version: [ "8.2", "8.3" ]
                             symfony_version: [ "7.4" ]
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         docker:
             -   image: webdevops/php-nginx:<< parameters.php_version >>
                 environment:
-                    - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_payment_fee_plugin_%kernel.environment%?serverVersion=8.0
+                    - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_packeta_plugin_%kernel.environment%?serverVersion=8.0
             -   image: cimg/mysql:8.0
                 environment:
                     MYSQL_ROOT_PASSWORD: pass_root
@@ -43,7 +43,7 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle|symfony/panther)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
@@ -55,6 +55,7 @@ jobs:
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
@@ -62,11 +63,12 @@ jobs:
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run: bin/phpstan.sh
-            -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test bin/phpstan.sh
+            -   run: bin/ecs.sh --clear-cache
             -   run: composer validate --no-check-lock
-            -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test bin/doctrine-lint.sh
+            -   run: bin/symfony-lint.sh
+            -   run: bin/doctrine-lint.sh
+            -   run: (cd tests/Application && bin/console sylius:payment:generate-key --overwrite --quiet)
+            -   run: (cd tests/Application && bin/console lexik:jwt:generate-keypair --overwrite --quiet)
             # Behat tests skipped for prefer-lowest because Sylius Behat contexts
             # differ between versions and older versions lack some required contexts
 
@@ -76,6 +78,7 @@ jobs:
                     command: |
                         rm -fr vendor composer.lock
                         composer update --no-interaction --prefer-dist --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:drop --force --if-exists --env=test -vvv)
@@ -85,9 +88,10 @@ jobs:
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run: bin/phpstan.sh
-            -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test bin/phpstan.sh
+            -   run: bin/ecs.sh --clear-cache
             -   run: composer validate --no-check-lock
-            -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test bin/doctrine-lint.sh
+            -   run: bin/symfony-lint.sh
+            -   run: bin/doctrine-lint.sh
+            -   run: (cd tests/Application && bin/console sylius:payment:generate-key --overwrite --quiet)
+            -   run: (cd tests/Application && bin/console lexik:jwt:generate-keypair --overwrite --quiet)
             -   run: APP_ENV=test bin/behat.sh

@@ -10,5 +10,6 @@
 /features export-ignore
 /Makefile export-ignore
 /phpstan.neon export-ignore
+/phpstan.dist.neon export-ignore
 /phpunit.xml.dist export-ignore
 /tests export-ignore

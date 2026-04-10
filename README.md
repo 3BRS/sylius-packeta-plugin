@@ -21,6 +21,16 @@
 	<a href="https://www.packeta.com/"><img src="https://raw.githubusercontent.com/3BRS/sylius-packeta-plugin/master/doc/logo.png" alt="Packeta / Packeta / Zásielkovňa / Csomagküldő / Przesyłkownia / Coletăria"/></a>
 </p>
 
+## Requirements
+
+| Package | Version |
+|---------|---------|
+| PHP | ^8.2 |
+| Sylius | ^2.1 |
+
+> For Sylius 2.0 support, use version 4.0.x of this plugin.
+> For Sylius 1.x support, use version 3.x of this plugin.
+
 ## Features
 
 - Enables sending shipments
