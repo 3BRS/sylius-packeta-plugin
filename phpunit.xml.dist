@@ -54,5 +54,11 @@
         <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
         <env name="JWT_PASSPHRASE" value="cb3f5fd45f8b908f579eea7b83a90a57ace4f97a39e5622f278e3ab4c39a6be9"/>
         <!-- ###- lexik/jwt-authentication-bundle ### -->
+
+        <!-- ###+ symfony/routing ### -->
+        <!-- Configure how to generate URLs in non-HTTP contexts, such as CLI commands. -->
+        <!-- See https://symfony.com/doc/current/routing.html#generating-urls-in-commands -->
+        <env name="DEFAULT_URI" value="http://localhost"/>
+        <!-- ###- symfony/routing ### -->
     </php>
 </phpunit>

@@ -6,16 +6,17 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # project root
 cd "$(dirname "$DIR")"
 
-set -x
+# Extract containerXmlPath from phpstan config (supports both key formats)
+CONTAINER_XML=$(sed -n 's/^[[:space:]]*container\(_xml_path\|XmlPath\):[[:space:]]*//p' \
+    phpstan.dist.neon phpstan.neon.dist phpstan.neon 2>/dev/null | head -1 | tr -d ' ' || true)
 
-# to avoid crash
-# [PHPStan\Symfony\XmlContainerNotExistsException]
-# Container /src/var/cache/dev/App_KernelDevDebugContainer.xml does not exist
-# (note: /src/var/cache/dev/srcApp_KernelDevDebugContainer.xml is legacy path)
-if [ ! -f var/cache/dev/App_KernelDevDebugContainer.xml ] && [ ! -f var/cache/dev/srcApp_KernelDevDebugContainer.xml ]; then
-  php bin/console --env=dev cache:warmup --no-optional-warmers
+if [ -n "$CONTAINER_XML" ] && [ ! -f "$CONTAINER_XML" ]; then
+    # Detect env from the path (e.g. cache/dev/ or cache/test/)
+    CACHE_ENV=$(echo "$CONTAINER_XML" | sed -n 's|.*cache/\([^/]*\)/.*|\1|p')
+    php bin/console --env="${CACHE_ENV:-dev}" cache:warmup --no-optional-warmers
 fi
 
+set -x
 XDEBUG_MODE=off php -d memory_limit=1G vendor/bin/phpstan analyse \
     --configuration=phpstan.neon \
     "$@"

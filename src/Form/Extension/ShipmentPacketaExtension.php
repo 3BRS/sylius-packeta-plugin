@@ -163,17 +163,17 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
      */
     private function getPacketaName(array $packeta): string
     {
-        $arrayName = [];
-        if (array_key_exists('place', $packeta)) {
-            $arrayName[] = $packeta['place'];
+        $nameParts = [];
+        if (isset($packeta['place']) && is_string($packeta['place'])) {
+            $nameParts[] = $packeta['place'];
         }
-        if (array_key_exists('nameStreet', $packeta)) {
-            $arrayName[] = $packeta['nameStreet'];
-        } elseif (array_key_exists('name', $packeta)) {
-            $arrayName[] = $packeta['name'];
+        if (isset($packeta['nameStreet']) && is_string($packeta['nameStreet'])) {
+            $nameParts[] = $packeta['nameStreet'];
+        } elseif (isset($packeta['name']) && is_string($packeta['name'])) {
+            $nameParts[] = $packeta['name'];
         }
 
-        return implode(', ', $arrayName);
+        return implode(', ', $nameParts);
     }
 
     /** @return array<string> */
