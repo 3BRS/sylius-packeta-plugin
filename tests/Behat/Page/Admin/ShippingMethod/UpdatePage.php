@@ -10,7 +10,7 @@ use Sylius\Behat\Page\Admin\Channel\UpdatePage as BaseUpdatePage;
 final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 {
     public function changeInput(
-        string  $elementName,
+        string $elementName,
         ?string $value,
     ): void {
         $this->getElement($elementName)->setValue($value);
@@ -41,9 +41,9 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'apiKey'          => '#sylius_admin_shipping_method_packetaConfig_apiKey',
-            'senderLabel'     => '#sylius_admin_shipping_method_packetaConfig_senderLabel',
-            'carrierId'       => '#sylius_admin_shipping_method_packetaConfig_carrierId',
+            'apiKey' => '#sylius_admin_shipping_method_packetaConfig_apiKey',
+            'senderLabel' => '#sylius_admin_shipping_method_packetaConfig_senderLabel',
+            'carrierId' => '#sylius_admin_shipping_method_packetaConfig_carrierId',
             'shippingAddress' => '[data-test-shipping-address]',
         ]);
     }
