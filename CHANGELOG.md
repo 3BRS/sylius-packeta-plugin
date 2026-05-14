@@ -3,7 +3,7 @@
 ## v5.0.0 (2026-01-27)
 - Add support for Sylius 2.1 and 2.2
 - Drop support for Sylius 2.0
-- Require PHP 8.3+ and Symfony 7.4
+- Require PHP 8.2+ and Symfony 7.4
 
 ## v4.0.0 (2025-06-10)
 - Support for Sylius 2.0, Symfony ^7.1

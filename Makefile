@@ -11,7 +11,7 @@ init:
 		direnv allow; \
 	fi
 	docker compose up -d
-	./bin-docker/composer update --no-plugins
+	./bin-docker/composer update --no-interaction --no-plugins
 	rm -fr "tests/Application/var/$(APP_ENV)"
 	@make var
 	./bin-docker/php ./bin/console doctrine:database:create --no-interaction --if-not-exists
@@ -30,7 +30,7 @@ init-tests:
 		direnv allow; \
 	fi
 	docker compose up -d
-	./bin-docker/composer update --no-plugins
+	./bin-docker/composer update --no-interaction --no-plugins
 	@make var
 	./bin-docker/php ./bin/console --env=test doctrine:database:drop --no-interaction --force --if-exists
 	./bin-docker/php ./bin/console --env=test doctrine:database:create --no-interaction --if-not-exists
