@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Behat\Context\Setup\ZoneContext;
 use Sylius\Behat\Service\SharedStorageInterface;
+use Sylius\Component\Addressing\Model\CountryInterface;
+use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 use ThreeBRS\SyliusPacketaPlugin\Entity\PacketaConfig;
@@ -15,13 +19,17 @@ use ThreeBRS\SyliusPacketaPlugin\Model\PacketaShippingMethodInterface;
 
 final readonly class ShippingMethodContext implements Context
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SharedStorageInterface $sharedStorage)
+    public function __construct(private EntityManagerInterface $entityManager, private SharedStorageInterface $sharedStorage, private ZoneContext $zoneContext)
     {
     }
 
-    /**
-     * @Given /^(this shipping method) has Packeta api key$/
-     */
+    #[Given('/^(this zone) contains the ("[^"]+" country)$/')]
+    public function thisZoneContainsTheCountry(ZoneInterface $zone, CountryInterface $country): void
+    {
+        $this->zoneContext->itHasTheCountryMemberAndTheCountryMember($zone, $country);
+    }
+
+    #[Given('/^(this shipping method) has Packeta api key$/')]
     public function thisPaymentMethodHasZone(ShippingMethodInterface $shippingMethod)
     {
         assert($shippingMethod instanceof PacketaShippingMethodInterface);
@@ -35,9 +43,7 @@ final readonly class ShippingMethodContext implements Context
         $this->entityManager->flush();
     }
 
-    /**
-     * @Given choose Packeta branch ":packetaName"
-     */
+    #[Given('choose Packeta branch ":packetaName"')]
     public function choosePacketaBranch(string $packetaName)
     {
         $order = $this->sharedStorage->get('order');

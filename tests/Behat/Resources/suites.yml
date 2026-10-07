@@ -1,4 +1,0 @@
-imports:
-    - suites/set_apikey_to_shipping_method.yml
-    - suites/admin_sees_packeta_branch_in_order.yml
-    - suites/select_packeta_branch_on_checkout.yml

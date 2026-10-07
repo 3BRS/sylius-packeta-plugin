@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v5.2.0 (2026-10-07)
+- Add support for Sylius 2.3
+- Add support for Symfony 8
+
 ## v5.0.0 (2026-01-27)
 - Add support for Sylius 2.1 and 2.2
 - Drop support for Sylius 2.0

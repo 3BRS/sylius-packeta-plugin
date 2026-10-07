@@ -8,7 +8,7 @@ Feature: Select Packeta branch in checkout
 		Given the store operates on a channel named "manGoweb Channel"
 		And the store operates in "Czechia"
 		And the store also has a zone "EU" with code "EU"
-		And this zone has the "Czechia" country member
+		And this zone contains the "Czechia" country
 		And the store has a product "PHP T-Shirt" priced at "$19.99"
 		And the store has "DHL" shipping method with "$1.99" fee within the "EU" zone
 		And the store has "Packeta" shipping method with "$0.99" fee within the "EU" zone
