@@ -104,6 +104,7 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
                 }
 
                 $selectedMethodCode = $shipment?->getMethod()?->getCode() ?? null;
+                $selectedPacketa = $shipment?->getPacketa();
 
                 foreach ($shippingMethods as $method) {
                     assert($method instanceof ShippingMethodInterface);
@@ -117,9 +118,9 @@ class ShipmentPacketaExtension extends AbstractTypeExtension
 
                         $data = null;
                         $dataLabel = null;
-                        if ($selectedMethodCode !== null && $selectedMethodCode === $method->getCode() && $shipment?->getPacketa() !== null) {
-                            $data = json_encode($shipment->getPacketa());
-                            $dataLabel = $this->getPacketaName($shipment->getPacketa());
+                        if ($selectedMethodCode !== null && $selectedMethodCode === $method->getCode() && $selectedPacketa !== null) {
+                            $data = json_encode($selectedPacketa);
+                            $dataLabel = $this->getPacketaName($selectedPacketa);
                         }
 
                         $this->packetaMethodsCodes[] = $method->getCode();
