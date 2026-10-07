@@ -6,6 +6,9 @@ namespace Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\Mink\Session;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Sylius\Behat\Context\Ui\Shop\Checkout\CheckoutShippingContext;
 use Symfony\Component\Routing\RouterInterface;
@@ -22,9 +25,7 @@ final readonly class ManagingPacketaContext implements Context
     ) {
     }
 
-    /**
-     * @Then I should not be able to go to the payment step again
-     */
+    #[Then('I should not be able to go to the payment step again')]
     public function iShouldNotBeAbleToGoToThePaymentStepAgain()
     {
         Assert::throws(function () {
@@ -32,33 +33,25 @@ final readonly class ManagingPacketaContext implements Context
         }, UnexpectedPageException::class);
     }
 
-    /**
-     * @Then I select :packetaName Packeta branch
-     */
+    #[Then('I select :packetaName Packeta branch')]
     public function iSelectPacketaBranch(string $packetaName)
     {
         $this->packetaPages->selectPacketaBranch(['id' => 1, 'place' => $packetaName]);
     }
 
-    /**
-     * @Given I see Packeta branch instead of shipping address
-     */
+    #[Given('I see Packeta branch instead of shipping address')]
     public function iSeePacketaBranchInsteadOfShippingAddress()
     {
         Assert::true($this->packetaPages->iSeePacketaBranchInsteadOfShippingAddress());
     }
 
-    /**
-     * @When I try to complete the shipping step without selected Packeta branch
-     */
+    #[When('I try to complete the shipping step without selected Packeta branch')]
     public function iTryToCompleteTheShippingStepWithoutSelectedPacketaBranch()
     {
         $this->checkoutShippingContext->iCompleteTheShippingStep();
     }
 
-    /**
-     * @Then I should still be on the checkout shipping step
-     */
+    #[Then('I should still be on the checkout shipping step')]
     public function iShouldStillBeOnTheCheckoutShippingStep()
     {
         $currentUrl = $this->session->getCurrentUrl();
@@ -78,9 +71,7 @@ final readonly class ManagingPacketaContext implements Context
         );
     }
 
-    /**
-     * @Then I should be notified that Packeta branch is required
-     */
+    #[Then('I should be notified that Packeta branch is required')]
     public function iShouldBeNotifiedThatPacketaBranchIsRequired()
     {
         $genericErrorMessage = $this->packetaPages->getGenericValidationMessageForShipment();

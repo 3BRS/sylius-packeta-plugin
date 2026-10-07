@@ -6,6 +6,8 @@ namespace Tests\ThreeBRS\SyliusPacketaPlugin\Behat\Context\Hook;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Hook\AfterStep;
+use Behat\Hook\BeforeScenario;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -25,7 +27,7 @@ final class TokenStorageResetContext implements Context
     ) {
     }
 
-    /** @AfterStep */
+    #[AfterStep]
     public function populateTokenStorageAfterLogin(): void
     {
         if ($this->tokenStorage->getToken() !== null) {
@@ -46,7 +48,7 @@ final class TokenStorageResetContext implements Context
         );
     }
 
-    /** @BeforeScenario */
+    #[BeforeScenario]
     public function resetTokenStorage(BeforeScenarioScope $scope): void
     {
         $this->tokenStorage->setToken(null);
