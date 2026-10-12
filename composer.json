@@ -55,7 +55,7 @@
         "doctrine/data-fixtures": "<1.8.0",
         "doctrine/dbal": "<2.13.3",
         "doctrine/doctrine-bundle": "<2.13.1",
-        "doctrine/orm": "<2.19.0|>=3.7",
+        "doctrine/orm": "<2.19.0",
         "fakerphp/faker": "<1.24.0",
         "friendsofsymfony/rest-bundle": "<3.1.0",
         "imagine/imagine": "<1.5.0",
